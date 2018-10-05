@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C735FFCA-664B-4D96-93C6-355B47A0B35D}</ProjectGuid>
+    <ProjectGuid>{4963BF46-42AC-4E68-9D2C-FA4761BEE167}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Calculator</RootNamespace>
-    <AssemblyName>Calculator</AssemblyName>
+    <RootNamespace>MyList</RootNamespace>
+    <AssemblyName>MyList</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,21 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Calculator.cs" />
-    <Compile Include="SyntaxException.cs" />
-    <Compile Include="TokenBinaryArithmetic.cs" />
-    <Compile Include="TokenBinaryBitwise.cs" />
-    <Compile Include="OperatorHelper.cs" />
-    <Compile Include="Parser.cs" />
+    <Compile Include="MyList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StringExtension.cs" />
-    <Compile Include="Token.cs" />
-    <Compile Include="TokenBinary.cs" />
-    <Compile Include="Tokenizer.cs" />
-    <Compile Include="TokenNumber.cs" />
-    <Compile Include="TokenType.cs" />
-    <Compile Include="TokenUnary.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
