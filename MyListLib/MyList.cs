@@ -8,6 +8,7 @@ namespace MyListLib {
         private static readonly T[] empty = new T[0];
 
         private T[] items;
+        private bool changed = false;
 
         public MyList()
             => items = empty;
@@ -85,6 +86,7 @@ namespace MyListLib {
             set {
                 var item = GetItem(index);
                 item = value;
+                changed = true;
             }
         }
 
@@ -94,12 +96,15 @@ namespace MyListLib {
             }
 
             items[Count++] = item;
+
+            changed = true;
         }
 
         public void Clear() {
             if (Count > 0) {
                 Array.Clear(items, 0, Count);
                 Count = 0;
+                changed = true;
             }
         }
 
@@ -138,6 +143,8 @@ namespace MyListLib {
 
             items[index] = item;
             ++Count;
+
+            changed = true;
         }
 
         public bool Remove(T item) {
@@ -155,14 +162,23 @@ namespace MyListLib {
             --Count;
             Array.Copy(items, index + 1, items, index, Count - index);
             items[Count] = default(T);
+            changed = true;
         }
 
         public IEnumerator<T> GetEnumerator() {
-            return new Enumerator(this);
+            changed = false;
+
+            foreach (var item in items) {
+                if (changed == true) {
+                    throw new InvalidOperationException("MyList was changed during iteration");
+                }
+
+                yield return item;
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator() {
-            return new Enumerator(this);
+            return GetEnumerator();
         }
 
         private T GetItem(int index) {
@@ -192,52 +208,6 @@ namespace MyListLib {
             }
 
             Capacity = capacityNew;
-        }
-
-        [Serializable]
-        public struct Enumerator : IEnumerator<T> {
-            private MyList<T> list;
-
-            private int currentIndex;
-            private T   currentItem;
-
-            public T Current {
-                get {
-                    if (currentIndex == 0 || currentIndex == list.Count + 1) {
-                        throw new InvalidOperationException();
-                    }
-
-                    return currentItem;
-                }
-            }
-
-            object IEnumerator.Current => Current;
-
-            internal Enumerator(MyList<T> list) {
-                this.list    = list;
-                currentIndex = 0;
-                currentItem  = default(T);
-            }
-
-            public void Dispose() {}
-
-            public bool MoveNext() {
-                if (currentIndex < list.Count) {
-                    currentItem = list[currentIndex];
-                    ++currentIndex;
-                    return true;
-                }
-
-                currentIndex = list.Count + 1;
-                currentItem  = default(T);
-
-                return false;
-            }
-
-            public void Reset() {
-                currentIndex = 0;
-                currentItem = default(T);
-            }
         }
     }
 }
